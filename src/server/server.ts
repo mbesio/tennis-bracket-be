@@ -2,9 +2,10 @@ import * as dotenv from 'dotenv'
 dotenv.config()
 
 import express from 'express'
-// import router from './router'
 import morgan from 'morgan'
 import cors from 'cors'
+
+import apiRouter from './apiRouter'
 
 const app = express()
 
@@ -19,6 +20,7 @@ app.get('/', (req, res) => {
 })
 
 // app.use('/api', protect, router)
+app.use('/api', apiRouter)
 
 // app.post('/user', createNewUser)
 // app.post('/signin', signin)
