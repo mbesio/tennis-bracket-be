@@ -55,3 +55,43 @@ export const addDrawPlayers = async (req, res) => {
   })
   res.json({data: updateDrawPlayer})
 }
+
+export const addResults = async (req, res) => {
+  const {id, year} = req.params
+  const {semifinalistFirstQuarter,
+    semifinalistSecondQuarter,
+    semifinalistThirdQuarter,
+    semifinalistFourthQuarter,
+    finalistTopHalf,
+    finalistBottomHalf,
+    winner
+  } = req.body
+  const getResults = await prisma.tournamentYear.findUnique({
+    where: {
+      tournamentYearId: {
+        year: parseInt(year),
+        tournamentId: id
+      }
+    }
+  })
+
+  const updateResults = await prisma.tournamentYear.update({
+    where: {
+      tournamentYearId: {
+        year: parseInt(year),
+        tournamentId: id
+      }
+    },
+    data: {
+      semifinalistFirstQuarter: getResults.semifinalistFirstQuarter || semifinalistFirstQuarter,
+      semifinalistSecondQuarter: getResults.semifinalistSecondQuarter || semifinalistSecondQuarter,
+      semifinalistThirdQuarter: getResults.semifinalistThirdQuarter || semifinalistThirdQuarter,
+      semifinalistFourthQuarter: getResults.semifinalistFourthQuarter || semifinalistFourthQuarter,
+      finalistTopHalf: getResults.finalistTopHalf || finalistTopHalf,
+      finalistBottomHalf: getResults.finalistBottomHalf || finalistBottomHalf,
+      winner: getResults.winner || winner
+    }
+  })
+  res.json({data: updateResults})
+
+}
