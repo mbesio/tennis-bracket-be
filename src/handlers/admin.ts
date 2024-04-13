@@ -8,8 +8,6 @@ export const isAdmin = async (req, res, next) => {
 
 
 export const addTournament = async (req, res ) => {
-  console.log('hello from addTournament')
-  return
   const {name, logo} = req.body
   const tournament = await prisma.tournament.create({
     data: {
@@ -18,4 +16,42 @@ export const addTournament = async (req, res ) => {
      }
   })
   res.json({data: tournament})
+}
+
+export const addTournamentYear = async (req, res) => {
+  const {id} = req.params
+  const {year} = req.body
+  const tournamentYear = await prisma.tournamentYear.create({
+    data: {
+      year,
+      tournamentId: id,
+    }
+  })
+  res.json({data: tournamentYear})
+}
+
+export const addDrawPlayers = async (req, res) => {
+  const {id, year} = req.params
+  const { isDrawOut,
+    playersFirstQuarter,
+    playersSecondQuarter,
+    playersThirdQuarter,
+    playersFourthQuarter
+  } = req.body
+  const updateDrawPlayer = await prisma.tournamentYear.update({
+    where: {
+      tournamentYearId: {
+        year: parseInt(year),
+        tournamentId: id
+      }
+    },
+    data: {
+      isDrawOut,
+      playersFirstQuarter,
+      playersSecondQuarter,
+      playersThirdQuarter,
+      playersFourthQuarter,
+    }
+  })
+  res.json({data: updateDrawPlayer})
 }
