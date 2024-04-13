@@ -19,14 +19,20 @@ model User {
 }
 
 model Tournament {
+  id             String           @id @default(uuid())
+  name           String           @unique
+  logo           String
+  TournamentYear TournamentYear[]
+}
+
+model TournamentYear {
   id                        String       @id @default(uuid())
-  name                      String       @unique
-  logo                      String
-  isDrawOut                 Boolean
-  playersFirstQuarter       String[]
-  playersSecondQuarter      String[]
-  playersThirdQuarter       String[]
-  playersFourthQuarter      String[]
+  year                      Int
+  isDrawOut                 Boolean      @default(false)
+  playersFirstQuarter       String[]     @default([])
+  playersSecondQuarter      String[]     @default([])
+  playersThirdQuarter       String[]     @default([])
+  playersFourthQuarter      String[]     @default([])
   semifinalistFirstQuarter  String?
   semifinalistSecondQuarter String?
   semifinalistThirdQuarter  String?
@@ -35,15 +41,19 @@ model Tournament {
   finalistBottomHalf        String?
   winner                    String?
   predictions               Prediction[]
+  tournament                Tournament   @relation(fields: [tournamentId], references: [id])
+  tournamentId              String
+
+  @@unique([tournamentId, year], name: "tournamentYearId")
 }
 
 model Prediction {
-  id                                  String     @id @default(uuid())
-  createdAt                           DateTime   @default(now())
-  user                                User       @relation(fields: [userId], references: [id])
+  id                                  String         @id @default(uuid())
+  createdAt                           DateTime       @default(now())
+  user                                User           @relation(fields: [userId], references: [id])
   userId                              String
-  tournament                          Tournament @relation(fields: [tournamentId], references: [id])
-  tournamentId                        String
+  tournamentYear                      TournamentYear @relation(fields: [tournamentYearId], references: [id])
+  tournamentYearId                    String
   predictionFirstQuarterSemiFinalist  String
   predictionSecondQuarterSemiFinalist String
   predictionThirdQuarterSemiFinalist  String
