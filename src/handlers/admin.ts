@@ -93,5 +93,9 @@ export const addResults = async (req, res) => {
     }
   })
   res.json({data: updateResults})
+}
 
+export const getUsers = async (req, res) => {
+  const users = await prisma.user.findMany()
+  res.json({data: users})
 }
