@@ -7,16 +7,16 @@ const GOOGLE_CLIENT_ID = process.env.GOOGLE_OATH_CLIENT_ID
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_OATH_CLIENT_SECRET
 
 export default function(passport) {
-// module.exports = function (passport) {
 
   passport.use(new GoogleStrategy({
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: "/google/callback",
+      callbackURL: "/auth/google/callback",
       scope: ['profile']
     },
     async(accessToken, refreshToken, profile, done) =>
     {
+      console.log('hi there from here')
       const newUser = {
         id: profile.id,
         displayName: profile.displayName,
@@ -34,13 +34,6 @@ export default function(passport) {
         done(null, user)
       }
       console.log('accessToken: ', accessToken)
-      // console.log('refreshToken: ', refreshToken)
-      // console.log('profile: ', profile)
-      // Register the user in the database with prisma below
-      // const user = prisma.user.upsert({
-      //   where: { email: }
-      // })
-      // cb(null, profile);
     }
   ))
 

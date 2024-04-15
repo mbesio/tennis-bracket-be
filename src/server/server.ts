@@ -8,11 +8,8 @@ import passport from 'passport'
 import session from 'express-session'
 import apiAdminRouter from './apiAdminRouter'
 import apiRouter from './apiRouter'
+import authRouter from './authRouter'
 import { isAdmin } from '../handlers/admin'
-
-import config from '../auth/authenticate'
-config(passport)
-// require('../auth/authenticate')(passport)
 
 const app = express()
 
@@ -40,18 +37,12 @@ app.get('/dashboard', (req, res) => {
   res.json({ message: 'this is the dashboard' })
 })
 
-// app.use('/api', protect, router)
-// have the middleware check if user is admin
-
+//TO DO: have the middleware check if user is admin
 app.use('/apiAdmin', isAdmin, apiAdminRouter)
+//TO DO: add sthg like app.use('/api', protect, router) - to check if the user is logged in
 app.use('/api', apiRouter)
 
-// app.post('/user', createNewUser)
-app.get('/google', passport.authenticate('google', {scope: ['profile']}))
-
-app.get('/google/callback', passport.authenticate('google', { failureRedirect: '/' }), (req, res) => {
-  console.log("I have been logged in correctly")
-  res.redirect('/dashboard')
-})
+// Google Auth
+app.use('/auth', authRouter)
 
 export default app
