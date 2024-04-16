@@ -12,6 +12,6 @@ adminRouter.post('/tournament/:id/:year/add-draw-players', addDrawPlayers)
 adminRouter.post('/tournament/:id/:year/add-results', addResults)
 
 // Admin User routes
-adminRouter.post('/users/', getUsers)
+adminRouter.get('/users/', getUsers)
 
 export default adminRouter
