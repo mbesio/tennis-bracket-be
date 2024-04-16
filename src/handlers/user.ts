@@ -51,26 +51,26 @@ export const getOpenPredictions = async (req, res ) => {
   res.json({data: prediction})
 }
 
-// TO DO
 export const getCurrentPredictions = async (req, res ) => {
-  const {name, logo} = req.body
-  const tournament = await prisma.tournament.create({
-    data: {
-      name,
-      logo,
-     }
+  const currentPredictions = await prisma.tournamentYear.findMany({
+    where: {
+      isDrawOut: true,
+      isPredictionClosed: true,
+      winner: null,
+    }
   })
-  res.json({data: tournament})
+  res.json({data: currentPredictions})
 }
 
-// TO DO
 export const getPastPredictions = async (req, res ) => {
-  const {name, logo} = req.body
-  const tournament = await prisma.tournament.create({
-    data: {
-      name,
-      logo,
-     }
+  const pastPredictions = await prisma.tournamentYear.findMany({
+    where: {
+      isDrawOut: true,
+      isPredictionClosed: true,
+      winner: {
+        not: null
+      },
+    }
   })
-  res.json({data: tournament})
+  res.json({data: pastPredictions})
 }
