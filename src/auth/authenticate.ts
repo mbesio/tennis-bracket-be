@@ -16,7 +16,6 @@ export default function(passport) {
     },
     async(accessToken, refreshToken, profile, done) =>
     {
-      console.log('hi there from here')
       const newUser = {
         id: profile.id,
         displayName: profile.displayName,
@@ -33,7 +32,6 @@ export default function(passport) {
         })
         done(null, user)
       }
-      console.log('accessToken: ', accessToken)
     }
   ))
 

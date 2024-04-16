@@ -28,7 +28,9 @@ model Tournament {
 model TournamentYear {
   id                        String       @id @default(uuid())
   year                      Int
+  startDate                 DateTime
   isDrawOut                 Boolean      @default(false)
+  isPredictionClosed        Boolean      @default(false)
   playersFirstQuarter       String[]     @default([])
   playersSecondQuarter      String[]     @default([])
   playersThirdQuarter       String[]     @default([])

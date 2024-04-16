@@ -7,7 +7,7 @@ const adminRouter = Router()
 
 // Admin Tournmanet routes
 adminRouter.post('/tournament/', addTournament)
-adminRouter.post('/tournament/:id/year', addTournamentYear)
+adminRouter.post('/tournament/:id/:year', addTournamentYear)
 adminRouter.post('/tournament/:id/:year/add-draw-players', addDrawPlayers)
 adminRouter.post('/tournament/:id/:year/add-results', addResults)
 

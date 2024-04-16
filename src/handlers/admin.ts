@@ -19,12 +19,12 @@ export const addTournament = async (req, res ) => {
 }
 
 export const addTournamentYear = async (req, res) => {
-  const {id} = req.params
-  const {year} = req.body
+  const {id, year, startDate} = req.params
   const tournamentYear = await prisma.tournamentYear.create({
     data: {
       year,
       tournamentId: id,
+      startDate,
     }
   })
   res.json({data: tournamentYear})
