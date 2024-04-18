@@ -10,6 +10,7 @@ config(passport)
 // Auth routes
 authRouter.get('/google', passport.authenticate('google', {scope: ['profile']}))
 authRouter.get('/google/callback', passport.authenticate('google', { failureRedirect: '/' }), (req, res) => {
+  res.send("Respond with a user object once the user auths in correctly.")
   console.log("I have been logged in correctly")
   res.redirect('/dashboard')
 })
