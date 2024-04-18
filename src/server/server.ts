@@ -13,18 +13,7 @@ import { isAdmin } from '../handlers/admin'
 
 const app = express()
 
-const allowedOrigin = 'http://localhost:3000'
-
 app.use(cors())
-
-// Add headers before the routes are defined
-app.use(function (req, res, next) {
-  // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', allowedOrigin);
-  // Pass to next layer of middleware
-  next();
-});
-
 
 app.use(morgan('dev'))
 app.use(express.json())
