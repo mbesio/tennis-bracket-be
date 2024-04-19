@@ -11,7 +11,8 @@ config(passport)
 const client = new OAuth2Client();
 
 
-authRouter.post("/google-auth", async (req, res) => {
+authRouter.post('/google-auth', async (req, res) => {
+  console.log("I am in the google auth route")
   const { credential, client_id } = req.body;
   try {
     const ticket = await client.verifyIdToken({

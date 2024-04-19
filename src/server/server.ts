@@ -52,4 +52,8 @@ app.use('/api', apiRouter)
 // Google Auth
 app.use('/auth', authRouter)
 
+app.post('/google-auth', (req, res) => {
+  console.log('hello from app.post/google-auth')
+})
+
 export default app
