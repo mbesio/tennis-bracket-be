@@ -38,11 +38,11 @@ app.get('/dashboard', (req, res) => {
 })
 
 //TO DO: have the middleware check if user is admin
-app.use('/apiAdmin', isAdmin, apiAdminRouter)
+app.use('/api/admin', isAdmin, apiAdminRouter)
 //TO DO: add sthg like app.use('/api', protect, router) - to check if the user is logged in
 app.use('/api', apiRouter)
 
 // Google Auth
-app.use('/auth', authRouter)
+app.use('/api/auth', authRouter)
 
 export default app
