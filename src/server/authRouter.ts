@@ -1,10 +1,31 @@
 import { Router } from 'express'
 import passport from 'passport'
+import { OAuth2Client } from "google-auth-library"
+
 
 const authRouter = Router()
 
 import config from '../auth/authenticate'
 config(passport)
+
+const client = new OAuth2Client();
+
+
+authRouter.post("/google-auth", async (req, res) => {
+  const { credential, client_id } = req.body;
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: credential,
+      audience: client_id,
+    });
+    const payload = ticket.getPayload();
+    const userid = payload['sub'];
+    res.status(200).json({ payload });
+  } catch (err) {
+  res.status(400).json({ err });
+  }
+});
+
 
 
 // Auth routes

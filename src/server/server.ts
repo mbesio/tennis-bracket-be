@@ -13,7 +13,13 @@ import { isAdmin } from '../handlers/admin'
 
 const app = express()
 
-app.use(cors())
+// app.use(cors())
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+    methods: "GET,POST,PUT,DELETE,OPTIONS"
+})
+)
 
 app.use(morgan('dev'))
 app.use(express.json())
