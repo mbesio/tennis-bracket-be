@@ -13,14 +13,7 @@ import { isAdmin } from '../handlers/admin'
 
 const app = express()
 
-// app.use(cors())
-app.use(
-  cors({
-    origin: ["http://localhost:3000"],
-    methods: "GET,POST,PUT,DELETE,OPTIONS"
-})
-)
-
+app.use(cors())
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
@@ -51,9 +44,5 @@ app.use('/api', apiRouter)
 
 // Google Auth
 app.use('/auth', authRouter)
-
-app.post('/google-auth', (req, res) => {
-  console.log('hello from app.post/google-auth')
-})
 
 export default app

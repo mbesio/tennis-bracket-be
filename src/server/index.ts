@@ -4,6 +4,6 @@ const PORT = process.env.PORT
 
 
 app.listen(PORT, () => {
-  console.log(`hello from:${PORT}`)
+  console.log(`hello on http://localhost:${PORT}`)
 })
 
