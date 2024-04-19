@@ -6,6 +6,15 @@ export const isAdmin = async (req, res, next) => {
   // if it is not Admin, then here it should return an let the user know they are trying to perform an unauthorized action
 }
 
+export const getTournaments = async (req, res) => {
+  const tournaments = await prisma.tournament.findMany()
+  res.json({data: tournaments})
+}
+
+export const getTournamentsYear = async (req, res) => {
+  const tournamentsYear = await prisma.tournamentYear.findMany()
+  res.json({data: tournamentsYear})
+}
 
 export const addTournament = async (req, res ) => {
   const {name, logo} = req.body
@@ -19,12 +28,18 @@ export const addTournament = async (req, res ) => {
 }
 
 export const addTournamentYear = async (req, res) => {
-  const {id, year, startDate} = req.params
+  const {id, year} = req.params
+  const {startDate} = req.body
+
+
+
+
   const tournamentYear = await prisma.tournamentYear.create({
     data: {
-      year,
+      year: parseInt(year),
       tournamentId: id,
-      startDate,
+      startDate: new Date(startDate).toISOString()
+      ,
     }
   })
   res.json({data: tournamentYear})

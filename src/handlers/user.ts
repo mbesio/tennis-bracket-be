@@ -27,17 +27,15 @@ export const getOpenPredictions = async (req, res ) => {
     where: {
       tournamentYearId: {
         tournamentId: id,
-        year: year
+        year: parseInt(year)
       }
     }
   })
 
-  // TO DO: validate the prediction
-
   const prediction = await prisma.prediction.create({
     data: {
       userId,
-      tournamentYearId: tournamentYear.tournamentId,
+      tournamentYearId: tournamentYear.id,
       predictionFirstQuarterSemiFinalist,
       predictionSecondQuarterSemiFinalist,
       predictionThirdQuarterSemiFinalist,
