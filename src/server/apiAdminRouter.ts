@@ -1,14 +1,17 @@
 import { Router } from 'express'
 import { getTournaments, getTournamentsYear, addTournament,
-  addTournamentYear, addDrawPlayers, addResults, getUsers
+  addTournamentYear, addDrawPlayers, addResults, getUsers, deleteTournament
  } from '../handlers/admin'
 
 const adminRouter = Router()
 
 // Admin Tournmanet routes
 adminRouter.get('/tournaments/', getTournaments)
-adminRouter.get('/tournaments/year', getTournamentsYear)
 adminRouter.post('/tournament/', addTournament)
+adminRouter.delete('/tournament/:id', deleteTournament)
+
+//Tournmanets Year
+adminRouter.get('/tournaments/year', getTournamentsYear)
 adminRouter.post('/tournament/:id/:year', addTournamentYear)
 adminRouter.post('/tournament/:id/:year/add-draw-players', addDrawPlayers)
 adminRouter.post('/tournament/:id/:year/add-results', addResults)

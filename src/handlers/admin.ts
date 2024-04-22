@@ -11,11 +11,6 @@ export const getTournaments = async (req, res) => {
   res.json({data: tournaments})
 }
 
-export const getTournamentsYear = async (req, res) => {
-  const tournamentsYear = await prisma.tournamentYear.findMany()
-  res.json({data: tournamentsYear})
-}
-
 export const addTournament = async (req, res ) => {
   const {name, logo} = req.body
   const tournament = await prisma.tournament.create({
@@ -26,6 +21,23 @@ export const addTournament = async (req, res ) => {
   })
   res.json({data: tournament})
 }
+
+export const deleteTournament = async (req, res) => {
+  const {id} = req.params
+  const tournament = await prisma.tournament.delete({
+    where: {
+      id: id
+    }
+  })
+  res.json({data: tournament})
+}
+
+export const getTournamentsYear = async (req, res) => {
+  const tournamentsYear = await prisma.tournamentYear.findMany()
+  res.json({data: tournamentsYear})
+}
+
+
 
 export const addTournamentYear = async (req, res) => {
   const {id, year} = req.params
