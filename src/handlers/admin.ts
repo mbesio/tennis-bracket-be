@@ -54,13 +54,9 @@ export const getTournamentsYear = async (req, res) => {
 }
 
 
-
 export const addTournamentYear = async (req, res) => {
   const {id, year} = req.params
   const {startDate} = req.body
-
-
-
 
   const tournamentYear = await prisma.tournamentYear.create({
     data: {
@@ -74,7 +70,7 @@ export const addTournamentYear = async (req, res) => {
 }
 
 export const addDrawPlayers = async (req, res) => {
-  const {id, year} = req.params
+  const {id} = req.params
   const { isDrawOut,
     playersFirstQuarter,
     playersSecondQuarter,
@@ -84,28 +80,21 @@ export const addDrawPlayers = async (req, res) => {
 
   const getDrawPlayers = await prisma.tournamentYear.findUnique({
     where: {
-      tournamentYearId: {
-        year: parseInt(year),
-        tournamentId: id
-      }
+      id
     }
   })
 
-
-
   const updateDrawPlayer = await prisma.tournamentYear.update({
     where: {
-      tournamentYearId: {
-        year: parseInt(year),
-        tournamentId: id
-      }
+      id
     },
     data: {
+      // TO DO: isDrawOut needs to be fixed
       isDrawOut: getDrawPlayers.isDrawOut || isDrawOut,
-      playersFirstQuarter: getDrawPlayers.playersFirstQuarter || playersFirstQuarter,
-      playersSecondQuarter: getDrawPlayers.playersSecondQuarter || playersSecondQuarter,
-      playersThirdQuarter: getDrawPlayers.playersThirdQuarter || playersThirdQuarter,
-      playersFourthQuarter: getDrawPlayers.playersFourthQuarter || playersFourthQuarter,
+      playersFirstQuarter: playersFirstQuarter ?  playersFirstQuarter.map(player => JSON.stringify(player)) : getDrawPlayers.playersFirstQuarter,
+      playersSecondQuarter: playersSecondQuarter ? playersSecondQuarter.map(player => JSON.stringify(player)) : getDrawPlayers.playersSecondQuarter,
+      playersThirdQuarter: playersThirdQuarter ? playersThirdQuarter.map(player => JSON.stringify(player)) : getDrawPlayers.playersThirdQuarter,
+      playersFourthQuarter: playersFourthQuarter ? playersFourthQuarter.map(player => JSON.stringify(player)) : getDrawPlayers.playersFourthQuarter,
     }
   })
   res.json({data: updateDrawPlayer})

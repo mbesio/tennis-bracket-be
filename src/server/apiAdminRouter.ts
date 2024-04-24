@@ -13,9 +13,9 @@ adminRouter.delete('/tournament/:id', deleteTournament)
 
 //Tournmanets Year
 adminRouter.get('/tournaments/year', getTournamentsYear)
-adminRouter.post('/tournament/:id/:year', addTournamentYear)
-adminRouter.post('/tournament/:id/:year/add-draw-players', addDrawPlayers)
+adminRouter.post('/tournament/add-draw-players/:id', addDrawPlayers)
 adminRouter.post('/tournament/:id/:year/add-results', addResults)
+adminRouter.post('/tournament/:id/:year', addTournamentYear)
 
 // Admin User routes
 adminRouter.get('/users/', getUsers)
