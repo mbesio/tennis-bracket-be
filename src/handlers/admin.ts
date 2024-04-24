@@ -34,7 +34,23 @@ export const deleteTournament = async (req, res) => {
 
 export const getTournamentsYear = async (req, res) => {
   const tournamentsYear = await prisma.tournamentYear.findMany()
-  res.json({data: tournamentsYear})
+  const tournamentsWithNameAndLogo = await Promise.all(tournamentsYear.map(async (tournamentYear) => {
+    const tournament = await prisma.tournament.findUnique({
+      where: {
+        id: tournamentYear.tournamentId
+      }
+    })
+    return {
+      // ...tournamentYear,
+      id: tournamentYear.id,
+      tournamentId: tournamentYear.tournamentId,
+      startDate: tournamentYear.startDate,
+      name: tournament.name,
+      logo: tournament.logo
+    }
+
+  }))
+  res.json({data: tournamentsWithNameAndLogo})
 }
 
 
@@ -65,6 +81,18 @@ export const addDrawPlayers = async (req, res) => {
     playersThirdQuarter,
     playersFourthQuarter
   } = req.body
+
+  const getDrawPlayers = await prisma.tournamentYear.findUnique({
+    where: {
+      tournamentYearId: {
+        year: parseInt(year),
+        tournamentId: id
+      }
+    }
+  })
+
+
+
   const updateDrawPlayer = await prisma.tournamentYear.update({
     where: {
       tournamentYearId: {
@@ -73,11 +101,11 @@ export const addDrawPlayers = async (req, res) => {
       }
     },
     data: {
-      isDrawOut,
-      playersFirstQuarter,
-      playersSecondQuarter,
-      playersThirdQuarter,
-      playersFourthQuarter,
+      isDrawOut: getDrawPlayers.isDrawOut || isDrawOut,
+      playersFirstQuarter: getDrawPlayers.playersFirstQuarter || playersFirstQuarter,
+      playersSecondQuarter: getDrawPlayers.playersSecondQuarter || playersSecondQuarter,
+      playersThirdQuarter: getDrawPlayers.playersThirdQuarter || playersThirdQuarter,
+      playersFourthQuarter: getDrawPlayers.playersFourthQuarter || playersFourthQuarter,
     }
   })
   res.json({data: updateDrawPlayer})
