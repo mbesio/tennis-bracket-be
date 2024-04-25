@@ -113,7 +113,7 @@ const AO_playersFourthQuarter = [
 
 const seedTournamentQuarters = async () => {
   //Update as needed
-  const tournamentName = TOURNAMENT_NAMES.AUSTRALIAN_OPEN
+  const tournamentName = TOURNAMENT_NAMES.MIAMI_OPEN
   //Update as needed
   const Year = 2024
 
@@ -138,6 +138,8 @@ const seedTournamentQuarters = async () => {
     where: {
       id: id
     }, data: {
+      isDrawOut: true,
+      isPredictionClosed: true,
       //Update as needed
       playersFirstQuarter: AO_playersFirstQuarter.map(player => JSON.stringify(player)),
       //Update as needed

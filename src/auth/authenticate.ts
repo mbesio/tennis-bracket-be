@@ -16,6 +16,10 @@ export default function(passport) {
     },
     async(accessToken, refreshToken, profile, done) =>
     {
+      console.log('accessToken ', accessToken)
+      console.log('profile ', profile)
+
+
       const newUser = {
         id: profile.id,
         displayName: profile.displayName,
