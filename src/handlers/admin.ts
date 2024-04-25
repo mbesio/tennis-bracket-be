@@ -32,6 +32,11 @@ export const deleteTournament = async (req, res) => {
   res.json({data: tournament})
 }
 
+export const getAllTournamentsYear = async (req, res) => {
+  const tournamentsYear = await prisma.tournamentYear.findMany()
+  res.json({data: tournamentsYear})
+}
+
 export const getTournamentsYear = async (req, res) => {
   const tournamentsYear = await prisma.tournamentYear.findMany()
   const tournamentsWithNameAndLogo = await Promise.all(tournamentsYear.map(async (tournamentYear) => {
@@ -71,7 +76,7 @@ export const addTournamentYear = async (req, res) => {
 
 export const addDrawPlayers = async (req, res) => {
   const {id} = req.params
-  const { isDrawOut,
+  const {
     playersFirstQuarter,
     playersSecondQuarter,
     playersThirdQuarter,
@@ -90,7 +95,7 @@ export const addDrawPlayers = async (req, res) => {
     },
     data: {
       // TO DO: isDrawOut needs to be fixed
-      isDrawOut: getDrawPlayers.isDrawOut || isDrawOut,
+      isDrawOut: true,
       playersFirstQuarter: playersFirstQuarter ?  playersFirstQuarter.map(player => JSON.stringify(player)) : getDrawPlayers.playersFirstQuarter,
       playersSecondQuarter: playersSecondQuarter ? playersSecondQuarter.map(player => JSON.stringify(player)) : getDrawPlayers.playersSecondQuarter,
       playersThirdQuarter: playersThirdQuarter ? playersThirdQuarter.map(player => JSON.stringify(player)) : getDrawPlayers.playersThirdQuarter,
@@ -101,7 +106,7 @@ export const addDrawPlayers = async (req, res) => {
 }
 
 export const addResults = async (req, res) => {
-  const {id, year} = req.params
+  const {id} = req.params
   const {semifinalistFirstQuarter,
     semifinalistSecondQuarter,
     semifinalistThirdQuarter,
@@ -112,19 +117,13 @@ export const addResults = async (req, res) => {
   } = req.body
   const getResults = await prisma.tournamentYear.findUnique({
     where: {
-      tournamentYearId: {
-        year: parseInt(year),
-        tournamentId: id
-      }
+      id
     }
   })
 
   const updateResults = await prisma.tournamentYear.update({
     where: {
-      tournamentYearId: {
-        year: parseInt(year),
-        tournamentId: id
-      }
+      id
     },
     data: {
       semifinalistFirstQuarter: getResults.semifinalistFirstQuarter || semifinalistFirstQuarter,
