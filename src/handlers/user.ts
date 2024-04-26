@@ -12,9 +12,12 @@ export const getOpenPredictions = async (req, res ) => {
 }
 
  export const makePrediction = async (req, res ) => {
+  console.log('hi from makePrediciton')
+  console.log('hi from makePrediciton - req.user', req.user)
   const {id} = req.params
+  const userId = req.user.id
+  console.log('req.user in makePrediction', userId)
   const {
-    userId,
     predictionFirstQuarterSemiFinalist,
     predictionSecondQuarterSemiFinalist,
     predictionThirdQuarterSemiFinalist,
@@ -66,6 +69,9 @@ export const getPastPredictions = async (req, res ) => {
 }
 
 export const getUserTournaments = async (req, res ) => {
+  console.log('hi from getUserTournaments')
+  console.log('req.user in getUserTournaments', req.user)
+
     const tournamentsYear = await prisma.tournamentYear.findMany()
     const tournaments = await Promise.all(tournamentsYear.map(async (tournamentYear) => {
       const tournament = await prisma.tournament.findUnique({

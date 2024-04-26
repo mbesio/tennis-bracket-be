@@ -16,8 +16,8 @@ export default function(passport) {
     },
     async(accessToken, refreshToken, profile, done) =>
     {
-      console.log('accessToken ', accessToken)
-      console.log('profile ', profile)
+      // console.log('accessToken ', accessToken)
+      // console.log('profile ', profile)
 
 
       const newUser = {
@@ -40,13 +40,15 @@ export default function(passport) {
   ))
 
   passport.serializeUser((user, done) => {
-    done(null, user.id)
+    console.log('user in serializeUser', user)
+    done(null, {id: user.id})
   })
 
   passport.deserializeUser(async (id, done) => {
     const user = await prisma.user.findUnique({
-      where: { id: id }
+      where: { id: id.id }
     })
-    done(null, user)
+    console.log('user in deserializeUser', user)
+    done(null, {id: user.id})
   })
 }

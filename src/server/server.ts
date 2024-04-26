@@ -10,10 +10,14 @@ import apiAdminRouter from './apiAdminRouter'
 import apiRouter from './apiRouter'
 import authRouter from './authRouter'
 import { isAdmin } from '../handlers/admin'
+import { CLIENT_DOMAIN } from '../routes/routes'
 
 const app = express()
 
-app.use(cors())
+app.use(cors({
+  origin: CLIENT_DOMAIN,
+  credentials: true
+}))
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
