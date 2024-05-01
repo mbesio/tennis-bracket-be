@@ -8,7 +8,8 @@ import {
   getCurrentPredictions,
   getPastPredictions,
   getUserTournaments,
-  getTournamentPlayers
+  getTournamentPlayers,
+  getTournamentResults
 } from '../handlers/user'
 
 const apiRouter = Router()
@@ -17,6 +18,7 @@ const apiRouter = Router()
 apiRouter.post('/prediction/tournament/:id/', makePrediction)
 apiRouter.get('/prediction/tournament/:id/', getPrediction)
 apiRouter.get('/predictions/', getPredictions)
+apiRouter.get('/result/tournament/:id/', getTournamentResults)
 
 apiRouter.get('/tournaments/', getUserTournaments)
 apiRouter.get('/tournament/players/:id', getTournamentPlayers)

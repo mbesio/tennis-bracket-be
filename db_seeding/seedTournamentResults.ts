@@ -8,7 +8,7 @@ import { TOURNAMENT_NAMES } from '../src/constants'
 
 const seedTournamentResults = async () => {
   //Update as needed
-  const tournamentName = TOURNAMENT_NAMES.INDIAN_WELLS
+  const tournamentName = TOURNAMENT_NAMES.MONTE_CARLO
   //Update as needed
   const Year = 2024
 

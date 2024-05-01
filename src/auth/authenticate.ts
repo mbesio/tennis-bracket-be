@@ -48,7 +48,7 @@ export default function(passport) {
     const user = await prisma.user.findUnique({
       where: { id: id.id }
     })
-    console.log('user in deserializeUser', user)
+    // console.log('user in deserializeUser', user)
     done(null, {id: user.id})
   })
 }

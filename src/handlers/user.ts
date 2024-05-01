@@ -152,3 +152,14 @@ export const getTournamentPlayers = async (req, res ) => {
 
   res.json({data: players})
 }
+
+export const getTournamentResults = async (req, res) => {
+  console.log('hi there')
+const {id} = req.params
+const results = await prisma.tournamentYear.findUnique({
+  where: {
+    id
+  }
+})
+res.json({data: results})
+}
