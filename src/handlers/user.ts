@@ -44,6 +44,37 @@ export const getOpenPredictions = async (req, res ) => {
   res.json({data: prediction})
 }
 
+export const getPrediction = async (req, res ) => {
+  const {id} = req.params
+  const userId = req.user.id
+  const prediction = await prisma.prediction.findFirst({
+    where: {
+        userId,
+        tournamentYearId: id
+    }
+  })
+  res.json({data: prediction})
+}
+
+export const getPredictions = async (req, res ) => {
+
+  // const deletePred = await prisma.prediction.delete({
+  //   where: {
+  //     id: '5f549659-c0da-41f7-9ccb-e53cae1a3850'
+  //   }
+  // })
+  // res.json({data: deletePred})
+
+  const userId = req.user.id
+  const predictions = await prisma.prediction.findMany({
+    where: {
+      userId
+    }
+  })
+  res.json({data: predictions})
+
+}
+
 export const getCurrentPredictions = async (req, res ) => {
   const currentPredictions = await prisma.tournamentYear.findMany({
     where: {

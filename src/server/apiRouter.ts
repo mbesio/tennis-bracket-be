@@ -3,6 +3,8 @@ import { Router } from 'express'
 import {
   getOpenPredictions,
   makePrediction,
+  getPrediction,
+  getPredictions,
   getCurrentPredictions,
   getPastPredictions,
   getUserTournaments,
@@ -13,6 +15,8 @@ const apiRouter = Router()
 
 // User routes
 apiRouter.post('/prediction/tournament/:id/', makePrediction)
+apiRouter.get('/prediction/tournament/:id/', getPrediction)
+apiRouter.get('/predictions/', getPredictions)
 
 apiRouter.get('/tournaments/', getUserTournaments)
 apiRouter.get('/tournament/players/:id', getTournamentPlayers)

@@ -63,4 +63,6 @@ model Prediction {
   predictionTopHalfFinalist           String
   predictionBottomHalfFinalist        String
   predictionWinner                    String
+
+  @@unique([userId, tournamentYearId], name: "userTournamentYearId")
 }
