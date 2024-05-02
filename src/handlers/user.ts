@@ -1,17 +1,17 @@
-import prisma from "../server/db"
+import prisma from '../server/db'
 
-export const getOpenPredictions = async (req, res ) => {
+export const getOpenPredictions = async (req, res) => {
   const openPredictions = await prisma.tournamentYear.findMany({
     where: {
       isDrawOut: true,
-      isPredictionClosed: false
-    }
+      isPredictionClosed: false,
+    },
   })
-  res.json({data: openPredictions})
+  res.json({ data: openPredictions })
 }
 
- export const makePrediction = async (req, res ) => {
-  const {id} = req.params
+export const makePrediction = async (req, res) => {
+  const { id } = req.params
   const userId = req.user.id
   const {
     predictionFirstQuarterSemiFinalist,
@@ -34,26 +34,25 @@ export const getOpenPredictions = async (req, res ) => {
       predictionTopHalfFinalist,
       predictionBottomHalfFinalist,
       predictionWinner,
-    }
+    },
   })
 
-  res.json({data: prediction})
+  res.json({ data: prediction })
 }
 
-export const getPrediction = async (req, res ) => {
-  const {id} = req.params
+export const getPrediction = async (req, res) => {
+  const { id } = req.params
   const userId = req.user.id
   const prediction = await prisma.prediction.findFirst({
     where: {
-        userId,
-        tournamentYearId: id
-    }
+      userId,
+      tournamentYearId: id,
+    },
   })
-  res.json({data: prediction})
+  res.json({ data: prediction })
 }
 
-export const getPredictions = async (req, res ) => {
-
+export const getPredictions = async (req, res) => {
   // const deletePred = await prisma.prediction.delete({
   //   where: {
   //     id: '5f549659-c0da-41f7-9ccb-e53cae1a3850'
@@ -64,44 +63,44 @@ export const getPredictions = async (req, res ) => {
   const userId = req.user.id
   const predictions = await prisma.prediction.findMany({
     where: {
-      userId
-    }
+      userId,
+    },
   })
-  res.json({data: predictions})
-
+  res.json({ data: predictions })
 }
 
-export const getCurrentPredictions = async (req, res ) => {
+export const getCurrentPredictions = async (req, res) => {
   const currentPredictions = await prisma.tournamentYear.findMany({
     where: {
       isDrawOut: true,
       isPredictionClosed: true,
       winner: null,
-    }
+    },
   })
-  res.json({data: currentPredictions})
+  res.json({ data: currentPredictions })
 }
 
-export const getPastPredictions = async (req, res ) => {
+export const getPastPredictions = async (req, res) => {
   const pastPredictions = await prisma.tournamentYear.findMany({
     where: {
       isDrawOut: true,
       isPredictionClosed: true,
       winner: {
-        not: null
+        not: null,
       },
-    }
+    },
   })
-  res.json({data: pastPredictions})
+  res.json({ data: pastPredictions })
 }
 
-export const getUserTournaments = async (req, res ) => {
-    const tournamentsYear = await prisma.tournamentYear.findMany()
-    const tournaments = await Promise.all(tournamentsYear.map(async (tournamentYear) => {
+export const getUserTournaments = async (req, res) => {
+  const tournamentsYear = await prisma.tournamentYear.findMany()
+  const tournaments = await Promise.all(
+    tournamentsYear.map(async (tournamentYear) => {
       const tournament = await prisma.tournament.findUnique({
         where: {
-          id: tournamentYear.tournamentId
-        }
+          id: tournamentYear.tournamentId,
+        },
       })
 
       const winner = tournamentYear.winner
@@ -109,9 +108,13 @@ export const getUserTournaments = async (req, res ) => {
       const isPredictionClosed = tournamentYear.isPredictionClosed
 
       // logic to determine status
-      const status = winner ? 'Completed' :
-                     !isDrawOut ? 'Non started, no draw' :
-                     isPredictionClosed ? 'In progress' : 'Non started, draw out'
+      const status = winner
+        ? 'Completed'
+        : !isDrawOut
+        ? 'Non started, no draw'
+        : isPredictionClosed
+        ? 'In progress'
+        : 'Non started, draw out'
 
       return {
         // ...tournamentYear,
@@ -122,50 +125,67 @@ export const getUserTournaments = async (req, res ) => {
         logo: tournament.logo,
         status: status,
       }
-
-    }))
-    res.json({data: tournaments.sort(
-      (a,b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime())})
-
+    })
+  )
+  res.json({
+    data: tournaments.sort(
+      (a, b) =>
+        new Date(a.startDate).getTime() - new Date(b.startDate).getTime()
+    ),
+  })
 }
 
-export const getTournamentPlayers = async (req, res ) => {
-  const {id} = req.params
+export const getTournamentPlayers = async (req, res) => {
+  const { id } = req.params
   const tournamentYear = await prisma.tournamentYear.findUnique({
     where: {
-      id: id
-    }
+      id: id,
+    },
   })
   const players = {
     playersFirstQuarter: tournamentYear.playersFirstQuarter,
     playersSecondQuarter: tournamentYear.playersSecondQuarter,
     playersThirdQuarter: tournamentYear.playersThirdQuarter,
-    playersFourthQuarter: tournamentYear.playersFourthQuarter
+    playersFourthQuarter: tournamentYear.playersFourthQuarter,
   }
 
-  res.json({data: players})
+  res.json({ data: players })
 }
 
 export const getTournamentResults = async (req, res) => {
-const {id} = req.params
-const results = await prisma.tournamentYear.findUnique({
-  where: {
-    id
-  }
-})
-res.json({data: results})
+  const { id } = req.params
+  const results = await prisma.tournamentYear.findUnique({
+    where: {
+      id,
+    },
+  })
+  res.json({ data: results })
 }
 
 export const getAdmin = async (req, res) => {
   if (!req.user) {
-    res.json({data: false})
+    res.json({ data: false })
   } else {
     const id = req.user.id
     const me = await prisma.user.findUnique({
       where: {
-      id
-    }
-  })
-  res.json({data: me.isAdmin})
+        id,
+      },
+    })
+    res.json({ data: me.isAdmin })
+  }
 }
+
+export const getMe = async (req, res) => {
+  if (!req.user) {
+    res.json({ data: {} })
+  } else {
+    const id = req.user.id
+    const me = await prisma.user.findUnique({
+      where: {
+        id,
+      },
+    })
+    res.json({ data: me })
+  }
 }

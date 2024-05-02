@@ -10,7 +10,8 @@ import {
   getUserTournaments,
   getTournamentPlayers,
   getTournamentResults,
-  getAdmin
+  getAdmin,
+  getMe,
 } from '../handlers/user'
 
 const apiRouter = Router()
@@ -28,5 +29,6 @@ apiRouter.get('/predictions/current', getCurrentPredictions)
 apiRouter.get('/predictions/past', getPastPredictions)
 
 apiRouter.get('/auth/admin', getAdmin)
+apiRouter.get('/auth/me', getMe)
 
 export default apiRouter
