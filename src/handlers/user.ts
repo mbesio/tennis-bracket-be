@@ -154,7 +154,6 @@ export const getTournamentPlayers = async (req, res ) => {
 }
 
 export const getTournamentResults = async (req, res) => {
-  console.log('hi there')
 const {id} = req.params
 const results = await prisma.tournamentYear.findUnique({
   where: {
@@ -162,4 +161,22 @@ const results = await prisma.tournamentYear.findUnique({
   }
 })
 res.json({data: results})
+}
+
+export const getAdmin = async (req, res) => {
+  console.log('hi from getAdmin')
+  console.log('req.user ', req.user)
+  console.log('!req.user ', !req.user)
+  if (!req.user) {
+    res.json({data: false})
+  } else {
+    const id = req.user.id
+    console.log('id in getAdmin', id)
+    const me = await prisma.user.findUnique({
+      where: {
+      id
+    }
+  })
+  res.json({data: me.isAdmin})
+}
 }

@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { getTournaments, getTournamentsYear, addTournament,
-  addTournamentYear, addDrawPlayers, addResults, getUsers, deleteTournament, getAllTournamentsYear, getPredictions
+  addTournamentYear, addDrawPlayers, addResults, getUsers, setAdminUser, deleteTournament, getAllTournamentsYear, getPredictions
  } from '../handlers/admin'
 import { getPlayers } from '../handlers/adminPlayers'
 
@@ -20,6 +20,7 @@ adminRouter.post('/tournament/:id/:year', addTournamentYear)
 
 // Admin User routes
 adminRouter.get('/users/', getUsers)
+adminRouter.put('/user/', setAdminUser)
 
 // Admin Player routes
 adminRouter.get('/players/', getPlayers)

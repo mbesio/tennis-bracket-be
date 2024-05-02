@@ -147,3 +147,16 @@ export const getPredictions = async (req, res ) => {
   const predictions = await prisma.prediction.findMany()
   res.json({data: predictions})
 }
+
+export const setAdminUser = async (req, res) => {
+
+  const user = await prisma.user.update({
+    where: {
+      id: req.body.id
+    },
+    data: {
+      isAdmin: true
+    }
+  })
+  res.json({data: user})
+}
