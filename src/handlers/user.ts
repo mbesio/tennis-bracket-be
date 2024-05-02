@@ -1,7 +1,6 @@
 import prisma from "../server/db"
 
 export const getOpenPredictions = async (req, res ) => {
-  console.log('req.user in getOpenPredictions', req.user)
   const openPredictions = await prisma.tournamentYear.findMany({
     where: {
       isDrawOut: true,
@@ -12,11 +11,8 @@ export const getOpenPredictions = async (req, res ) => {
 }
 
  export const makePrediction = async (req, res ) => {
-  console.log('hi from makePrediciton')
-  console.log('hi from makePrediciton - req.user', req.user)
   const {id} = req.params
   const userId = req.user.id
-  console.log('req.user in makePrediction', userId)
   const {
     predictionFirstQuarterSemiFinalist,
     predictionSecondQuarterSemiFinalist,
@@ -100,9 +96,6 @@ export const getPastPredictions = async (req, res ) => {
 }
 
 export const getUserTournaments = async (req, res ) => {
-  console.log('hi from getUserTournaments')
-  console.log('req.user in getUserTournaments', req.user)
-
     const tournamentsYear = await prisma.tournamentYear.findMany()
     const tournaments = await Promise.all(tournamentsYear.map(async (tournamentYear) => {
       const tournament = await prisma.tournament.findUnique({
@@ -164,14 +157,10 @@ res.json({data: results})
 }
 
 export const getAdmin = async (req, res) => {
-  console.log('hi from getAdmin')
-  console.log('req.user ', req.user)
-  console.log('!req.user ', !req.user)
   if (!req.user) {
     res.json({data: false})
   } else {
     const id = req.user.id
-    console.log('id in getAdmin', id)
     const me = await prisma.user.findUnique({
       where: {
       id
