@@ -74,26 +74,26 @@ const seedTournaments = async () => {
   ]
 
   const tournaments = TOURNAMENTS.map(({ name, logo }) =>
-    prisma.tournament.update({
-      where: {
-        name,
-      },
+    //   prisma.tournament.update({
+    //     where: {
+    //       name,
+    //     },
+    //     data: {
+    //       logo,
+    //     },
+    //   })
+    // )
+    // const test = await Promise.all(tournaments)
+    // console.log('done!')
+    prisma.tournament.create({
       data: {
+        name,
         logo,
       },
     })
   )
-  const test = await Promise.all(tournaments)
-  console.log('done!')
-  //   prisma.tournament.create({
-  //     data: {
-  //       name,
-  //       logo
-  //     }
-  //   })
-  // ))
-  // const result = await Promise.all(tournaments)
-  // console.log('Tournaments seeded: ', result)
+  const result = await Promise.all(tournaments)
+  console.log('Tournaments seeded: ', result)
 }
 
 seedTournaments()
