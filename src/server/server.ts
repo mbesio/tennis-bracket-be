@@ -45,7 +45,7 @@ app.get('/dashboard', (req, res) => {
   res.json({ message: 'this is the dashboard' })
 })
 
-app.use('/api/admin', isAdmin, apiAdminRouter)
+app.use('/api/admin', apiAdminRouter)
 app.use('/api', apiRouter)
 
 // Google Auth
