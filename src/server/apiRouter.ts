@@ -13,20 +13,21 @@ import {
   getAdmin,
   getMe,
 } from '../handlers/user'
+import { isAuth } from '../auth/helpers'
 
 const apiRouter = Router()
 
 // User routes
-apiRouter.post('/prediction/tournament/:id/', makePrediction)
-apiRouter.get('/prediction/tournament/:id/', getPrediction)
-apiRouter.get('/predictions/', getPredictions)
-apiRouter.get('/result/tournament/:id/', getTournamentResults)
+apiRouter.post('/prediction/tournament/:id/', isAuth, makePrediction)
+apiRouter.get('/prediction/tournament/:id/', isAuth, getPrediction)
+apiRouter.get('/predictions/', isAuth, getPredictions)
+apiRouter.get('/result/tournament/:id/', isAuth, getTournamentResults)
 
-apiRouter.get('/tournaments/', getUserTournaments)
-apiRouter.get('/tournament/players/:id', getTournamentPlayers)
-apiRouter.get('/predictions/open', getOpenPredictions)
-apiRouter.get('/predictions/current', getCurrentPredictions)
-apiRouter.get('/predictions/past', getPastPredictions)
+apiRouter.get('/tournaments/', isAuth, getUserTournaments)
+apiRouter.get('/tournament/players/:id', isAuth, getTournamentPlayers)
+apiRouter.get('/predictions/open', isAuth, getOpenPredictions)
+apiRouter.get('/predictions/current', isAuth, getCurrentPredictions)
+apiRouter.get('/predictions/past', isAuth, getPastPredictions)
 
 apiRouter.get('/auth/admin', getAdmin)
 apiRouter.get('/auth/me', getMe)

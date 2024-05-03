@@ -1,7 +1,7 @@
 import { config } from 'dotenv'
 config()
 
-import prisma from "../src/server/db"
+import prisma from '../src/server/db'
 
 import { TOURNAMENT_NAMES } from '../src/constants'
 
@@ -30,7 +30,7 @@ const AO_playersFirstQuarter = [
   { name: 'L. Van Assche', seed: null },
   { name: 'A. Vukic', seed: null },
   { name: 'J. Thompson', seed: null },
-  { name: 'S. Tsitsipas', seed: 7 }
+  { name: 'S. Tsitsipas', seed: 7 },
 ]
 const AO_playersSecondQuarter = [
   { name: 'J. Sinner', seed: 4 },
@@ -55,9 +55,9 @@ const AO_playersSecondQuarter = [
   { name: 'C. Eubanks', seed: null },
   { name: 'T. Daniel', seed: null },
   { name: 'T. Seyboth Wild', seed: null },
-  { name: 'A. Rublev', seed: 5 }
+  { name: 'A. Rublev', seed: 5 },
 ]
-const AO_playersThirdQuarter =  [
+const AO_playersThirdQuarter = [
   { name: 'H. Rune', seed: 8 },
   { name: 'Y. Nishioka', seed: null },
   { name: 'L. Djere', seed: null },
@@ -80,7 +80,7 @@ const AO_playersThirdQuarter =  [
   { name: 'D. Thiem', seed: null },
   { name: 'A. Muller', seed: null },
   { name: 'E. Ruusuvuori', seed: null },
-  { name: 'D. Medvedev', seed: 3 }
+  { name: 'D. Medvedev', seed: 3 },
 ]
 const AO_playersFourthQuarter = [
   { name: 'A. Zverev', seed: 6 },
@@ -107,20 +107,19 @@ const AO_playersFourthQuarter = [
   { name: 'D. Evans', seed: null },
   { name: 'L. Sonego', seed: null },
   { name: 'R. Gasquet', seed: null },
-  { name: 'C. Alcaraz', seed: 2 }
+  { name: 'C. Alcaraz', seed: 2 },
 ]
-
 
 const seedTournamentQuarters = async () => {
   //Update as needed
-  const tournamentName = TOURNAMENT_NAMES.MONTE_CARLO
+  const tournamentName = TOURNAMENT_NAMES.MADRID_OPEN
   //Update as needed
   const Year = 2024
 
   const tournament = await prisma.tournament.findUnique({
     where: {
-      name: tournamentName
-    }
+      name: tournamentName,
+    },
   })
   const tournamentId = tournament.id
 
@@ -128,28 +127,36 @@ const seedTournamentQuarters = async () => {
     where: {
       tournamentYearId: {
         year: Year,
-        tournamentId: tournamentId
-      }
-    }
+        tournamentId: tournamentId,
+      },
+    },
   })
   const id = tournamentYearId.id
 
   const updateDrawPlayers = await prisma.tournamentYear.update({
     where: {
-      id: id
-    }, data: {
+      id: id,
+    },
+    data: {
       isDrawOut: true,
       isPredictionClosed: false,
       //Update as needed
-      playersFirstQuarter: AO_playersFirstQuarter.map(player => JSON.stringify(player)),
+      playersFirstQuarter: AO_playersFirstQuarter.map((player) =>
+        JSON.stringify(player)
+      ),
       //Update as needed
-      playersSecondQuarter: AO_playersSecondQuarter.map(player => JSON.stringify(player)),
+      playersSecondQuarter: AO_playersSecondQuarter.map((player) =>
+        JSON.stringify(player)
+      ),
       //Update as needed
-      playersThirdQuarter: AO_playersThirdQuarter.map(player => JSON.stringify(player)),
+      playersThirdQuarter: AO_playersThirdQuarter.map((player) =>
+        JSON.stringify(player)
+      ),
       //Update as needed
-      playersFourthQuarter: AO_playersFourthQuarter.map(player => JSON.stringify(player)),
-
-    }
+      playersFourthQuarter: AO_playersFourthQuarter.map((player) =>
+        JSON.stringify(player)
+      ),
+    },
   })
   console.log('done seed Tournament quarters')
 }

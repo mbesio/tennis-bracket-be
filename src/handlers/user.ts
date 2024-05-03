@@ -177,6 +177,7 @@ export const getAdmin = async (req, res) => {
 }
 
 export const getMe = async (req, res) => {
+  console.log('req.user in getMe', req.user)
   if (!req.user) {
     res.json({ data: {} })
   } else {

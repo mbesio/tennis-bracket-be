@@ -1,6 +1,7 @@
 import prisma from '../server/db'
 
 export const isAdmin = async (req, res, next) => {
+  console.log('req.user ', req.user)
   const user = req.user
   if (!user) {
     return res.status(401).json({ message: 'Unauthorized' })
@@ -19,6 +20,7 @@ export const isAdmin = async (req, res, next) => {
 }
 
 export const isAuth = async (req, res, next) => {
+  console.log('req.user ', req.user)
   const user = req.user
   if (!user) {
     return res.status(401).json({ message: 'Unauthorized' })

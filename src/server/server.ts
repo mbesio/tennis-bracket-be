@@ -9,24 +9,28 @@ import session from 'express-session'
 import apiAdminRouter from './apiAdminRouter'
 import apiRouter from './apiRouter'
 import authRouter from './authRouter'
-import { isAdmin } from '../handlers/admin'
+import { isAdmin } from '../auth/helpers'
 import { CLIENT_DOMAIN } from '../routes/routes'
 
 const app = express()
 
-app.use(cors({
-  origin: CLIENT_DOMAIN,
-  credentials: true
-}))
+app.use(
+  cors({
+    origin: CLIENT_DOMAIN,
+    credentials: true,
+  })
+)
 app.use(morgan('dev'))
 app.use(express.json())
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({ extended: true }))
 
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false
-}))
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+)
 
 app.use(passport.initialize())
 app.use(passport.session())
@@ -41,9 +45,7 @@ app.get('/dashboard', (req, res) => {
   res.json({ message: 'this is the dashboard' })
 })
 
-//TO DO: have the middleware check if user is admin
 app.use('/api/admin', isAdmin, apiAdminRouter)
-//TO DO: add sthg like app.use('/api', protect, router) - to check if the user is logged in
 app.use('/api', apiRouter)
 
 // Google Auth
