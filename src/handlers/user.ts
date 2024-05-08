@@ -163,7 +163,14 @@ export const getTournamentPlayers = async (req, res) => {
         id: id,
       },
     })
+    const tournament = await prisma.tournament.findUnique({
+      where: {
+        id: tournamentYear.tournamentId,
+      },
+    })
     const players = {
+      name: tournament.name,
+      year: tournamentYear.year,
       playersFirstQuarter: tournamentYear.playersFirstQuarter,
       playersSecondQuarter: tournamentYear.playersSecondQuarter,
       playersThirdQuarter: tournamentYear.playersThirdQuarter,
@@ -184,7 +191,14 @@ export const getTournamentResults = async (req, res) => {
         id,
       },
     })
-    res.status(200).json({ data: results })
+
+    const tournament = await prisma.tournament.findUnique({
+      where: {
+        id: results.tournamentId,
+      },
+    })
+
+    res.status(200).json({ data: { ...results, name: tournament.name } })
   } catch (error) {
     res.status(500).json({ error: 'Error connecting to the DB' })
   }
