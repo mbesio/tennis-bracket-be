@@ -24,6 +24,20 @@ export const addTournament = async (req, res) => {
   }
 }
 
+export const getTournament = async (req, res) => {
+  try {
+    const { id } = req.params
+    const tournament = await prisma.tournamentYear.findUnique({
+      where: {
+        id: id,
+      },
+    })
+    res.status(200).json({ data: tournament })
+  } catch (error) {
+    res.status(500).json({ error: 'Error connecting to the DB' })
+  }
+}
+
 export const deleteTournament = async (req, res) => {
   try {
     const { id } = req.params
@@ -113,7 +127,7 @@ export const addDrawPlayers = async (req, res) => {
       },
       data: {
         // TO DO: isDrawOut needs to be fixed
-        isDrawOut: true,
+        // isDrawOut: true,
         playersFirstQuarter: playersFirstQuarter
           ? playersFirstQuarter.map((player) => JSON.stringify(player))
           : getDrawPlayers.playersFirstQuarter,
@@ -157,20 +171,57 @@ export const addResults = async (req, res) => {
         id,
       },
       data: {
-        semifinalistFirstQuarter:
-          getResults.semifinalistFirstQuarter || semifinalistFirstQuarter,
-        semifinalistSecondQuarter:
-          getResults.semifinalistSecondQuarter || semifinalistSecondQuarter,
-        semifinalistThirdQuarter:
-          getResults.semifinalistThirdQuarter || semifinalistThirdQuarter,
-        semifinalistFourthQuarter:
-          getResults.semifinalistFourthQuarter || semifinalistFourthQuarter,
-        finalistTopHalf: getResults.finalistTopHalf || finalistTopHalf,
-        finalistBottomHalf: getResults.finalistBottomHalf || finalistBottomHalf,
-        winner: getResults.winner || winner,
+        // semifinalistFirstQuarter,
+        // semifinalistSecondQuarter,
+        // semifinalistThirdQuarter,
+        // semifinalistFourthQuarter,
+        // finalistTopHalf,
+        // finalistBottomHalf,
+        // winner,
+        semifinalistFirstQuarter: JSON.stringify(semifinalistFirstQuarter),
+        semifinalistSecondQuarter: JSON.stringify(semifinalistSecondQuarter),
+        semifinalistThirdQuarter: JSON.stringify(semifinalistThirdQuarter),
+        semifinalistFourthQuarter: JSON.stringify(semifinalistFourthQuarter),
+        finalistTopHalf: JSON.stringify(finalistTopHalf),
+        finalistBottomHalf: JSON.stringify(finalistBottomHalf),
+        winner: JSON.stringify(winner),
       },
     })
     res.status(201).json({ data: updateResults })
+  } catch (error) {
+    res.status(500).json({ error: 'Error connecting to the DB' })
+  }
+}
+
+export const setDrawIsOpen = async (req, res) => {
+  try {
+    const { id } = req.params
+    const updateDrawIsOpen = await prisma.tournamentYear.update({
+      where: {
+        id,
+      },
+      data: {
+        isDrawOut: true,
+      },
+    })
+    res.status(201).json({ data: updateDrawIsOpen })
+  } catch (error) {
+    res.status(500).json({ error: 'Error connecting to the DB' })
+  }
+}
+
+export const setPredictionIsClosed = async (req, res) => {
+  try {
+    const { id } = req.params
+    const updatePredictionIsClosed = await prisma.tournamentYear.update({
+      where: {
+        id,
+      },
+      data: {
+        isPredictionClosed: true,
+      },
+    })
+    res.status(201).json({ data: updatePredictionIsClosed })
   } catch (error) {
     res.status(500).json({ error: 'Error connecting to the DB' })
   }

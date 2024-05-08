@@ -9,7 +9,6 @@ import session from 'express-session'
 import apiAdminRouter from './apiAdminRouter'
 import apiRouter from './apiRouter'
 import authRouter from './authRouter'
-import { isAdmin } from '../auth/helpers'
 import { CLIENT_DOMAIN } from '../routes/routes'
 
 const app = express()

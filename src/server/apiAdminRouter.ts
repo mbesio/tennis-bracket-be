@@ -3,6 +3,7 @@ import {
   getTournaments,
   getTournamentsYear,
   addTournament,
+  getTournament,
   addTournamentYear,
   addDrawPlayers,
   addResults,
@@ -11,6 +12,8 @@ import {
   deleteTournament,
   getAllTournamentsYear,
   getPredictions,
+  setDrawIsOpen,
+  setPredictionIsClosed,
 } from '../handlers/admin'
 import { getPlayers } from '../handlers/adminPlayers'
 import { isAdmin } from '../auth/helpers'
@@ -23,10 +26,17 @@ adminRouter.post('/tournament/', isAdmin, addTournament)
 adminRouter.delete('/tournament/:id', isAdmin, deleteTournament)
 
 //Tournmanets Year
+adminRouter.get('/tournament/:id', isAdmin, getTournament)
 adminRouter.get('/tournaments/year', isAdmin, getTournamentsYear)
 adminRouter.get('/tournaments/draws', isAdmin, getAllTournamentsYear)
 adminRouter.post('/tournament/add-draw-players/:id', isAdmin, addDrawPlayers)
 adminRouter.post('/tournament/add-results/:id', isAdmin, addResults)
+adminRouter.post('/tournament/draw-is-open/:id', isAdmin, setDrawIsOpen)
+adminRouter.post(
+  '/tournament/prediction-is-closed/:id',
+  isAdmin,
+  setPredictionIsClosed
+)
 adminRouter.post('/tournament/:id/:year', isAdmin, addTournamentYear)
 
 // Admin User routes
