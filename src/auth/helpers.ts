@@ -26,6 +26,7 @@ export const isAuth = async (req, res, next) => {
   try {
     console.log('hello there from the try block of isAuth')
     console.log('req.user', req.user)
+    console.log('req.headers.cookie', req.headers.cookie)
     const user = req.user
     if (!user) {
       return res.status(401).json({ message: 'Unauthorized' })
