@@ -14,12 +14,6 @@ const app = express()
 
 const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN
 
-app.use((req, res, next) => {
-  res.setHeader('Connection', 'keep-alive')
-  res.setHeader('Keep-Alive', 'timeout=5')
-  next()
-})
-
 app.use(
   cors({
     origin: CLIENT_DOMAIN,
