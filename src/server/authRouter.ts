@@ -16,7 +16,7 @@ authRouter.get(
   '/google/callback',
   passport.authenticate('google', { failureRedirect: `${CLIENT_DOMAIN}/` }),
   (req, res) => {
-    res.cookie('connect.sid', req.sessionID, { domain: CLIENT_DOMAIN })
+    // res.cookie('connect.sid', req.sessionID, { domain: CLIENT_DOMAIN })
     res.redirect(`${CLIENT_DOMAIN}/dashboard`)
   }
 )
