@@ -40,15 +40,20 @@ app.get('/', (req, res) => {
   res.json({ message: 'hello' })
 })
 
-app.get('/dashboard', (req, res) => {
-  res.status(200)
-  res.json({ message: 'this is the dashboard' })
-})
-
 app.use('/api/admin', apiAdminRouter)
 app.use('/api', apiRouter)
 
 // Google Auth
 app.use('/api/auth', authRouter)
+
+app.get('*', (req, res) => {
+  console.log('req.originalUrl', req.originalUrl)
+  res.redirect(CLIENT_DOMAIN + req.originalUrl)
+})
+
+// app.get('/dashboard', (req, res) => {
+//   res.status(200)
+//   res.json({ message: 'this is the dashboard' })
+// })
 
 export default app
