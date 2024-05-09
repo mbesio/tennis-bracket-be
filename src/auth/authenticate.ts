@@ -5,6 +5,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_OATH_CLIENT_ID
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_OATH_CLIENT_SECRET
+const SERVER_DOMAIN = process.env.SERVER_DOMAIN
 
 export default function (passport) {
   passport.use(
@@ -12,7 +13,7 @@ export default function (passport) {
       {
         clientID: GOOGLE_CLIENT_ID,
         clientSecret: GOOGLE_CLIENT_SECRET,
-        callbackURL: `/api/auth/google/callback`,
+        callbackURL: `${SERVER_DOMAIN}/api/auth/google/callback`,
         scope: ['profile'],
       },
       async (accessToken, refreshToken, profile, done) => {
