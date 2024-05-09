@@ -42,14 +42,12 @@ app.use(
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.get('/', (req, res) => {
-  res.redirect(CLIENT_DOMAIN)
-})
-
+// Google Auth
+app.use('/api/auth', authRouter)
 app.use('/api/admin', apiAdminRouter)
 app.use('/api', apiRouter)
 
-// Google Auth
-app.use('/api/auth', authRouter)
-
+// app.get('/', (req, res) => {
+//   res.redirect(CLIENT_DOMAIN)
+// })
 export default app
