@@ -47,7 +47,7 @@ app.use('/api/auth', authRouter)
 app.use('/api/admin', apiAdminRouter)
 app.use('/api', apiRouter)
 
-// app.get('/', (req, res) => {
-//   res.redirect(CLIENT_DOMAIN)
-// })
+app.get('*', (req, res) => {
+  res.redirect(CLIENT_DOMAIN)
+})
 export default app
