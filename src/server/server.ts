@@ -9,9 +9,10 @@ import session from 'express-session'
 import apiAdminRouter from './apiAdminRouter'
 import apiRouter from './apiRouter'
 import authRouter from './authRouter'
-import { CLIENT_DOMAIN } from '../routes/routes'
 
 const app = express()
+
+const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN
 
 app.use(
   cors({
