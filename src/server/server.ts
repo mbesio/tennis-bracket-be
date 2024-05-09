@@ -13,10 +13,11 @@ import authRouter from './authRouter'
 const app = express()
 
 const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN
+const SERVER_DOMAIN = process.env.SERVER_DOMAIN
 
 app.use(
   cors({
-    origin: CLIENT_DOMAIN,
+    origin: [CLIENT_DOMAIN, SERVER_DOMAIN],
     credentials: true,
   })
 )
