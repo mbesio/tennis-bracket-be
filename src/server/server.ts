@@ -45,9 +45,4 @@ app.use('/api', apiRouter)
 // Google Auth
 app.use('/api/auth', authRouter)
 
-app.get('/dashboard', (req, res) => {
-  res.redirect(CLIENT_DOMAIN + '/dashboard')
-  // res.json({ message: 'this is the dashboard' })
-})
-
 export default app
