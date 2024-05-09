@@ -30,10 +30,11 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      domain: '.onrender.com', // Note the leading dot
-      secure: true, // Ensure this is true in a production environment
+      domain: '.onrender.com',
+      secure: true,
       httpOnly: true,
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      sameSite: 'none',
     },
   })
 )
