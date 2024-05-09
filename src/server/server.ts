@@ -9,7 +9,6 @@ import session from 'express-session'
 import apiAdminRouter from './apiAdminRouter'
 import apiRouter from './apiRouter'
 import authRouter from './authRouter'
-import authenticate from '../auth/authenticate'
 
 const app = express()
 
@@ -30,20 +29,11 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: {
-      domain: '.onrender.com',
-      secure: true,
-      httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000, // 24 hours
-      sameSite: 'none',
-    },
   })
 )
 
 app.use(passport.initialize())
 app.use(passport.session())
-
-authenticate(passport)
 
 // Google Auth
 app.use('/api/auth', authRouter)
