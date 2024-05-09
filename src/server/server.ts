@@ -9,6 +9,7 @@ import session from 'express-session'
 import apiAdminRouter from './apiAdminRouter'
 import apiRouter from './apiRouter'
 import authRouter from './authRouter'
+import authenticate from '../auth/authenticate'
 
 const app = express()
 
@@ -41,6 +42,8 @@ app.use(
 
 app.use(passport.initialize())
 app.use(passport.session())
+
+authenticate(passport)
 
 // Google Auth
 app.use('/api/auth', authRouter)
