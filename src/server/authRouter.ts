@@ -14,9 +14,9 @@ authRouter.get(
 )
 authRouter.get(
   '/google/callback',
-  passport.authenticate('google', { failureRedirect: `${CLIENT_DOMAIN}/` }),
+  passport.authenticate('google', { failureRedirect: `/` }),
   (req, res) => {
-    res.redirect(`${CLIENT_DOMAIN}/dashboard`)
+    res.redirect(`/dashboard`)
   }
 )
 authRouter.get('/logout', (req, res, next) => {

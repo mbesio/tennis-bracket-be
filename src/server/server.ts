@@ -36,13 +36,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 app.get('/', (req, res) => {
-  res.status(200)
-  res.json({ message: 'hello' })
-})
-
-app.get('/dashboard', (req, res) => {
-  res.status(200)
-  res.json({ message: 'this is the dashboard' })
+  res.redirect(CLIENT_DOMAIN)
 })
 
 app.use('/api/admin', apiAdminRouter)
@@ -50,5 +44,10 @@ app.use('/api', apiRouter)
 
 // Google Auth
 app.use('/api/auth', authRouter)
+
+app.get('/dashboard', (req, res) => {
+  res.redirect(CLIENT_DOMAIN + '/dashboard')
+  // res.json({ message: 'this is the dashboard' })
+})
 
 export default app
