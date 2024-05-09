@@ -111,6 +111,7 @@ export const getPastPredictions = async (req, res) => {
 
 export const getUserTournaments = async (req, res) => {
   try {
+    console.log('hello there from the try block of getUserTournaments')
     const tournamentsYear = await prisma.tournamentYear.findMany()
     const tournaments = await Promise.all(
       tournamentsYear.map(async (tournamentYear) => {

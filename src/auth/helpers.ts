@@ -24,6 +24,8 @@ export const isAdmin = async (req, res, next) => {
 
 export const isAuth = async (req, res, next) => {
   try {
+    console.log('hello there from the try block of isAuth')
+    console.log('req.user', req.user)
     const user = req.user
     if (!user) {
       return res.status(401).json({ message: 'Unauthorized' })
