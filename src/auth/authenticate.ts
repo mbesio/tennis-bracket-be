@@ -5,10 +5,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_OATH_CLIENT_ID
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_OATH_CLIENT_SECRET
-const SERVER_DOMAIN =
-  process.env.NODE_ENV === 'production'
-    ? process.env.SERVER_DOMAIN_PROD
-    : process.env.SERVER_DOMAIN_DEV
+const SERVER_DOMAIN = process.env.SERVER_DOMAIN
 
 export default function (passport) {
   passport.use(

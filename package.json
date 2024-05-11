@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon src/server/index.ts",
     "build": "tsc -p tsconfig.json",
-    "start": "set NODE_ENV=production && node dist/src/server/index.js"
+    "start": "node dist/src/server/index.js"
   },
   "keywords": [],
   "author": "",

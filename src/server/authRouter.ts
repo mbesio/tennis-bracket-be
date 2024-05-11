@@ -6,14 +6,8 @@ const authRouter = Router()
 import config from '../auth/authenticate'
 config(passport)
 
-const CLIENT_DOMAIN =
-  process.env.NODE_ENV === 'production'
-    ? process.env.CLIENT_DOMAIN_PROD
-    : process.env.CLIENT_DOMAIN_DEV
-const SERVER_DOMAIN =
-  process.env.NODE_ENV === 'production'
-    ? process.env.SERVER_DOMAIN_PROD
-    : process.env.SERVER_DOMAIN_DEV
+const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN
+const SERVER_DOMAIN = process.env.SERVER_DOMAIN
 // Auth routes
 authRouter.get(
   '/google',
@@ -23,7 +17,7 @@ authRouter.get(
   '/google/callback',
   passport.authenticate('google', { failureRedirect: `${CLIENT_DOMAIN}/` }),
   (req, res) => {
-    // res.cookie('connect.sid', req.sessionID, { domain: SERVER_DOMAIN })
+    res.cookie('connect.sid', req.sessionID, { domain: SERVER_DOMAIN })
     res.redirect(`${CLIENT_DOMAIN}/dashboard`)
   }
 )

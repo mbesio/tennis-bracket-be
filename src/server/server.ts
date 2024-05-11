@@ -12,14 +12,8 @@ import authRouter from './authRouter'
 
 const app = express()
 
-const CLIENT_DOMAIN =
-  process.env.NODE_ENV === 'production'
-    ? process.env.CLIENT_DOMAIN_PROD
-    : process.env.CLIENT_DOMAIN_DEV
-const SERVER_DOMAIN =
-  process.env.NODE_ENV === 'production'
-    ? process.env.SERVER_DOMAIN_PROD
-    : process.env.SERVER_DOMAIN_DEV
+const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN
+const SERVER_DOMAIN = process.env.SERVER_DOMAIN
 
 app.use(
   cors({
