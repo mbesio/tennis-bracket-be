@@ -14,6 +14,7 @@ import {
   getMe,
 } from '../handlers/user'
 import { isAuth } from '../auth/helpers'
+import { getOverallRanking } from '../handlers/ranking'
 
 const apiRouter = Router()
 
@@ -28,6 +29,8 @@ apiRouter.get('/tournament/players/:id', isAuth, getTournamentPlayers)
 apiRouter.get('/predictions/open', isAuth, getOpenPredictions)
 apiRouter.get('/predictions/current', isAuth, getCurrentPredictions)
 apiRouter.get('/predictions/past', isAuth, getPastPredictions)
+
+apiRouter.get('/ranking', isAuth, getOverallRanking) // You can pass a page query parameter here - /ranking?page=2
 
 apiRouter.get('/auth/admin', getAdmin)
 apiRouter.get('/auth/me', getMe)

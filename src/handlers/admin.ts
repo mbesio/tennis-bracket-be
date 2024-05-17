@@ -1,5 +1,9 @@
 import prisma from '../server/db'
 
+import { createClient } from 'redis'
+const redisClient = createClient()
+export const PUB_SUB_CHANNEL = 'tournamentCompleted'
+
 export const getTournaments = async (req, res) => {
   try {
     const tournaments = await prisma.tournament.findMany()
@@ -149,6 +153,7 @@ export const addDrawPlayers = async (req, res) => {
 }
 
 export const addResults = async (req, res) => {
+  console.log('hello from addResults')
   try {
     const { id } = req.params
     const {
@@ -160,11 +165,16 @@ export const addResults = async (req, res) => {
       finalistBottomHalf,
       winner,
     } = req.body
-    const getResults = await prisma.tournamentYear.findUnique({
-      where: {
-        id,
-      },
-    })
+
+    if (winner && winner !== '') {
+      try {
+        const publisher = redisClient.duplicate()
+        await publisher.connect()
+        publisher.publish(PUB_SUB_CHANNEL, JSON.stringify(id))
+      } catch (error) {
+        console.error('Error publishing message:', error)
+      }
+    }
 
     const updateResults = await prisma.tournamentYear.update({
       where: {

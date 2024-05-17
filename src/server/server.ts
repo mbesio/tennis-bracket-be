@@ -9,8 +9,11 @@ import session from 'express-session'
 import apiAdminRouter from './apiAdminRouter'
 import apiRouter from './apiRouter'
 import authRouter from './authRouter'
+import { createPubSubSubscriber } from '../scoring/scoring'
 
 const app = express()
+
+const pubSubSubscriber = createPubSubSubscriber()
 
 const CLIENT_DOMAIN = process.env.CLIENT_DOMAIN
 const SERVER_DOMAIN = process.env.SERVER_DOMAIN
@@ -48,4 +51,5 @@ app.use('/api', apiRouter)
 app.get('*', (req, res) => {
   res.redirect(CLIENT_DOMAIN)
 })
+
 export default app

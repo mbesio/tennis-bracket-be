@@ -16,6 +16,8 @@ model User {
   displayName String
   photo       String? // should be brought in from google auth
   predictions Prediction[]
+  scores      Score[]
+  ranking     Ranking[]
 }
 
 model Tournament {
@@ -45,6 +47,7 @@ model TournamentYear {
   predictions               Prediction[]
   tournament                Tournament   @relation(fields: [tournamentId], references: [id])
   tournamentId              String
+  scores                    Score[]
 
   @@unique([tournamentId, year], name: "tournamentYearId")
 }
@@ -63,6 +66,29 @@ model Prediction {
   predictionTopHalfFinalist           String
   predictionBottomHalfFinalist        String
   predictionWinner                    String
+  scores                              Score[]
 
   @@unique([userId, tournamentYearId], name: "userTournamentYearId")
+}
+
+model Score {
+  id               String         @id @default(uuid())
+  prediction       Prediction     @relation(fields: [predictionId], references: [id])
+  predictionId     String
+  user             User           @relation(fields: [userId], references: [id])
+  userId           String
+  tournamentYear   TournamentYear @relation(fields: [tournamentYearId], references: [id])
+  tournamentYearId String
+  score            Int
+
+  @@unique([userId, tournamentYearId], name: "userTournamentYearId")
+}
+
+model Ranking {
+  id                  String @id @default(uuid())
+  user                User   @relation(fields: [userId], references: [id])
+  userId              String @unique
+  totalScore          Int
+  numberOfPredictions Int
+  rank                Int
 }
