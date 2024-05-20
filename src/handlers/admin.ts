@@ -246,6 +246,22 @@ export const getUsers = async (req, res) => {
   }
 }
 
+export const deleteUser = async (req, res) => {
+  try {
+    const { id } = req.params
+
+    const user = await prisma.user.delete({
+      where: {
+        id,
+      },
+    })
+
+    res.status(200).json({ data: user })
+  } catch (error) {
+    res.status(500).json({ error: 'Error connecting to the DB' })
+  }
+}
+
 export const getPredictions = async (req, res) => {
   try {
     const predictions = await prisma.prediction.findMany()

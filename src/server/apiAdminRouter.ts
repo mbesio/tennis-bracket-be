@@ -8,6 +8,7 @@ import {
   addDrawPlayers,
   addResults,
   getUsers,
+  deleteUser,
   setAdminUser,
   deleteTournament,
   getAllTournamentsYear,
@@ -41,6 +42,7 @@ adminRouter.post('/tournament/:id/:year', isAdmin, addTournamentYear)
 
 // Admin User routes
 adminRouter.get('/users/', isAdmin, getUsers)
+adminRouter.delete('/user/:id', isAdmin, deleteUser)
 adminRouter.put('/user/', isAdmin, setAdminUser)
 
 // Admin Player routes
