@@ -14,7 +14,8 @@ model User {
   id          String       @id @default(uuid())
   isAdmin     Boolean      @default(false)
   displayName String
-  photo       String? // should be brought in from google auth
+  photo       String?
+  email       String?
   predictions Prediction[]
   scores      Score[]
   ranking     Ranking[]
@@ -55,7 +56,7 @@ model TournamentYear {
 model Prediction {
   id                                  String         @id @default(uuid())
   createdAt                           DateTime       @default(now())
-  user                                User           @relation(fields: [userId], references: [id])
+  user                                User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId                              String
   tournamentYear                      TournamentYear @relation(fields: [tournamentYearId], references: [id])
   tournamentYearId                    String
@@ -73,9 +74,9 @@ model Prediction {
 
 model Score {
   id               String         @id @default(uuid())
-  prediction       Prediction     @relation(fields: [predictionId], references: [id])
+  prediction       Prediction     @relation(fields: [predictionId], references: [id], onDelete: Cascade)
   predictionId     String
-  user             User           @relation(fields: [userId], references: [id])
+  user             User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId           String
   tournamentYear   TournamentYear @relation(fields: [tournamentYearId], references: [id])
   tournamentYearId String
@@ -86,7 +87,7 @@ model Score {
 
 model Ranking {
   id                  String @id @default(uuid())
-  user                User   @relation(fields: [userId], references: [id])
+  user                User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId              String @unique
   totalScore          Int
   numberOfPredictions Int
