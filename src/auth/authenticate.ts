@@ -14,7 +14,6 @@ export default function (passport) {
         clientID: GOOGLE_CLIENT_ID,
         clientSecret: GOOGLE_CLIENT_SECRET,
         callbackURL: `${SERVER_DOMAIN}/api/auth/google/callback`,
-        scope: ['profile'],
       },
       async (accessToken, refreshToken, profile, done) => {
         try {
@@ -22,6 +21,7 @@ export default function (passport) {
             id: profile.id,
             displayName: profile.displayName,
             photo: profile.photos[0].value,
+            email: profile.emails[0].value,
           }
           const user = await prisma.user.findUnique({
             where: { id: newUser.id },

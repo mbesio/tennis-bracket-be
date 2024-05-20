@@ -11,7 +11,7 @@ const SERVER_DOMAIN = process.env.SERVER_DOMAIN
 // Auth routes
 authRouter.get(
   '/google',
-  passport.authenticate('google', { scope: ['profile'] })
+  passport.authenticate('google', { scope: ['profile', 'email'] })
 )
 authRouter.get(
   '/google/callback',
