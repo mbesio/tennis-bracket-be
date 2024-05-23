@@ -1,8 +1,10 @@
 import prisma from '../server/db'
 
 export const isAdmin = async (req, res, next) => {
+  console.log('hello there from the isAdmin helper')
   try {
     const user = req.user
+    console.log('user in the isAdmin helper', user)
     if (!user) {
       return res.status(401).json({ message: 'Unauthorized' })
     }

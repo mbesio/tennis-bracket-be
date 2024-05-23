@@ -1,6 +1,14 @@
 import prisma from '../server/db'
 
 import { createClient } from 'redis'
+import {
+  drawIsOutEmailSubject,
+  drawIsOutEmailText,
+  drawIsOutEmailHTML,
+} from '../constants'
+
+import { sendEmailWhenDrawIsOut } from '../email/email'
+
 const redisClient = createClient()
 export const PUB_SUB_CHANNEL = 'tournamentCompleted'
 
@@ -214,6 +222,38 @@ export const setDrawIsOpen = async (req, res) => {
         isDrawOut: true,
       },
     })
+    console.log('updateDrawIsOpen: ', updateDrawIsOpen)
+
+    const year = updateDrawIsOpen.year
+    console.log('year: ', year)
+    const tournament = await prisma.tournament.findUnique({
+      where: {
+        id: updateDrawIsOpen.tournamentId,
+      },
+    })
+    console.log('tournament: ', tournament)
+    // TO DO: Trigger an email telling all users that the draw is out
+    const users = await prisma.user.findMany({
+      select: {
+        email: true,
+        displayName: true,
+      },
+    })
+
+    console.log('users: ', users)
+    const emailFrom = process.env.EMAIL_FROM
+    console.log('emailFrom: ', emailFrom)
+
+    const subject = drawIsOutEmailSubject(tournament.name)
+    console.log('subject: ', subject)
+    const text = drawIsOutEmailText(year, tournament.name)
+    console.log('text: ', text)
+    const html = drawIsOutEmailHTML(year, tournament.name)
+    console.log('html: ', html)
+
+    // Currently I do not have production access on SES so emails will not be sent - UNCOMMENT WHEN READY
+    // await sendEmailWhenDrawIsOut(emailFrom, users, subject, text, html)
+
     res.status(201).json({ data: updateDrawIsOpen })
   } catch (error) {
     res.status(500).json({ error: 'Error connecting to the DB' })

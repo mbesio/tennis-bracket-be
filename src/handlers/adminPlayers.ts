@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 export const getPlayers = async (req, res) => {
+  console.log('hello there from the getPlayers handler')
   try {
     const NUM_OF_PLAYERS = 200
 
@@ -12,8 +13,10 @@ export const getPlayers = async (req, res) => {
         'X-RapidAPI-Host': process.env.X_RAPID_API_HOST,
       },
     }
+    console.log('hello there before the axios request')
 
     const response = await axios.request(options)
+    console.log(response, 'response')
     res.status(200).json(response.data)
     // const testData = {
     //   data: [
@@ -44,6 +47,7 @@ export const getPlayers = async (req, res) => {
     // }
     // res.status(200).json(testData)
   } catch (error) {
+    console.log(error, 'error')
     res.status(500).json({ error: 'Error connecting to the API Service' })
   }
 }
